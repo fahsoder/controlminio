@@ -2,9 +2,12 @@ package controlminio;
 
 import controlminio.domminio.Apartamento;
 import controlminio.domminio.ApartamentoLuxo;
+import controlminio.domminio.Pessoa;
 import controlminio.fabrica.FactoryApartamento;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
@@ -12,6 +15,7 @@ import java.util.Scanner;
 import static controlminio.repositorio.BancoCondominio.*;
 import static controlminio.repositorio.BancoEdificio.*;
 import static controlminio.repositorio.BancoApartamento.*;
+import static controlminio.repositorio.BancoPessoa.listarPessoas;
 
 public class Main {
 
@@ -20,7 +24,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
 
-        int escolha = 99, escolha_condominio = 99, escolha_apto = 99, escolha_edificio;
+        int escolha = 99, escolha_condominio = 99, escolha_apto = 99, escolha_edificio = 99, escolha_pessoa = 99;
 
         while(escolha != 0) {
             escolha = 99; escolha_condominio = 99; escolha_apto = 99; escolha_edificio = 99;
@@ -140,9 +144,9 @@ public class Main {
                     }
                 }
 
-            }else if(escolha == 3){
+            }else if(escolha == 3) {
 
-                while(escolha_apto != 0) {
+                while (escolha_apto != 0) {
                     System.out.println("");
                     System.out.println("O que você deseja fazer em Apartamento?");
                     System.out.println("1) Consultar lista de apartamentos");
@@ -150,11 +154,11 @@ public class Main {
                     System.out.println("3) Deletar apartamento");
                     System.out.println("0) Voltar");
                     escolha_apto = leitor.nextInt();
-                    if(escolha_apto == 1) {
+                    if (escolha_apto == 1) {
                         System.out.println("LISTA DE APARTAMENTOS");
 
                         listarApartamentos();
-                    }else if(escolha_apto == 2) {
+                    } else if (escolha_apto == 2) {
 
                         Scanner leitorApartamento = new Scanner(System.in);
 
@@ -164,7 +168,7 @@ public class Main {
                         Apartamento apartamento = validaApartamento(tipoAp);
                         Long idApartamento = adicionarApartamento(apartamento);
                         System.out.println("Apartamento " + idApartamento + " adicionado!");
-                    }else if(escolha_apto == 3) {
+                    } else if (escolha_apto == 3) {
                         System.out.println("Deleta APARTAMENTO");
                         listarApartamentos();
                         System.out.println("Digite o ID do apartamento que deseja deletar");
@@ -175,11 +179,47 @@ public class Main {
                             System.out.println("Erro ao deletar apartamento");
                         }
 
-                    }else if(escolha_apto == 0) {
+                    } else if (escolha_apto == 0) {
 
-                    }else {
+                    } else {
                         System.out.println("Opção inválida");
 
+                    }
+                }
+            } else if(escolha == 4) {
+                while (escolha_pessoa != 0) {
+                    System.out.println("");
+                    System.out.println("O que você deseja fazer em Pessoa?");
+                    System.out.println("1) Consultar lista de pessoas");
+                    System.out.println("2) Adicionar pessoa");
+                    System.out.println("3) Deletar pessoa");
+                    System.out.println("0) Voltar");
+                    escolha_pessoa = leitor.nextInt();
+
+                    if (escolha_pessoa == 1) {
+                        System.out.println("LISTAR PESSOAS");
+                        listarPessoas();
+                    }
+
+                    if (escolha_pessoa == 2) {
+                        System.out.println("ADICIONAR PESSOA");
+                        System.out.println("Lista de apartamentos:");
+                        listarApartamentos();
+                        System.out.println("Digite o ID do apartamento:");
+                        Long idApartamento = leitor.nextLong();
+                        System.out.println("Digite o nome:");
+                        String nome = leitor.next();
+                        System.out.println("Digite o cpf");
+                        String cpf = leitor.next();
+                        System.out.println("Digite o rg");
+                        String rg = leitor.next();
+                        System.out.println("Qual o sexo? Masculino(M) ou Feminino(F)?");
+                        String sexo = leitor.next();
+                        System.out.println("Digite sua data de nascimento: (ex: 01/01/2000)");
+                        String dataText = leitor.next();
+                        DateTimeFormatter df = new DateTimeFormatter("dd/mm/yyyy")
+                        LocalDate dataNasc =  LocalDate.parse(dataText, df);
+                        Pessoa pessoa = new Pessoa(nome, cpf, rg, sexo, Local)
                     }
                 }
 
@@ -192,6 +232,7 @@ public class Main {
             }
         }
     }
+
     private static Apartamento validaApartamento(Integer tipoAp) throws SQLException {
         Apartamento apartamento = null;
 

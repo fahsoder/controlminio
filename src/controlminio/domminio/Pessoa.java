@@ -23,8 +23,6 @@ public class  Pessoa {
         this.sexo = sexo;
         this.dataNascimento = dataNascimento;
         this.idade = calculaIdade(dataNascimento);
-
-        save();
     }
 
     public Long getIdUsuario() {
@@ -57,6 +55,10 @@ public class  Pessoa {
 
     public Apartamento getApartamento() {
         return this.apartamento;
+    }
+
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public void setNome(String nome) {
@@ -93,12 +95,5 @@ public class  Pessoa {
         Integer idade = diff.getYears();
 
         return idade;
-    }
-
-    private void save() throws SQLException {
-        MysqlConnect conn = MysqlConnect.getDbCon();
-
-        this.idUsuario = (Long) (long) conn.insert("INSERT INTO Pessoa (nome, cpf, rg, sexo, nascimento, idApartamento) " +
-                "VALUES ('" + this.nome + "', '" + this.cpf + "', '" + this.rg + "', '" + this.sexo +  "', '" + this.dataNascimento.toString() +  "', '" + this.apartamento.getIdApartamento() + "')");
     }
 }
