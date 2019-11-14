@@ -2,7 +2,7 @@ package controlminio.domminio;
 
 import java.util.Date;
 
-public class Pessoa {
+public  abstract class  Pessoa {
     private int idUsuario;
     private String nome;
     private String cpf;
