@@ -5,8 +5,11 @@ public class ApartamentoLuxo extends Apartamento {
     private boolean geladeira;
     private boolean fogao;
 
-    public ApartamentoLuxo() {
-        super(idApartamento);
+    public ApartamentoLuxo(int idApartamento, Edificio edificio, int andar, Pessoa proprietario, String luminarias, boolean geladeira, boolean fogao) {
+        super(idApartamento, edificio, andar, proprietario);
+        this.luminarias = luminarias;
+        this.geladeira = geladeira;
+        this.fogao = fogao;
     }
 
     public String getLuminarias() {
@@ -28,4 +31,5 @@ public class ApartamentoLuxo extends Apartamento {
      public void setFogao( boolean fogao){
         this.fogao = fogao;
      }
+
 }

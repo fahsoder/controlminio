@@ -1,0 +1,2 @@
+CREATE DATA BASE Controlminio;
+

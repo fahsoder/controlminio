@@ -35,7 +35,7 @@ public class Condominio {
     }
 
     public void setIdCondominio(int idCondominio) {
-        this.idCondominio = idCondominio;
+        this.idCondominio += 1;
     }
 
     public void setNome(String nome) {
@@ -53,4 +53,5 @@ public class Condominio {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
+
 }

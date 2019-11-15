@@ -2,7 +2,7 @@ package controlminio.domminio;
 
 import java.util.Date;
 
-public  abstract class  Pessoa {
+public class  Pessoa {
     private int idUsuario;
     private String nome;
     private String cpf;
@@ -10,5 +10,69 @@ public  abstract class  Pessoa {
     private String sexo;
     private int idade;
     private Date dataNascimento;
-    private Apartamento apartamento;
+    private Apartamento propietario;
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public Apartamento getPropietario() {
+        return propietario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario += 1;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public void setPropietario(Apartamento propietario) {
+        this.propietario = propietario;
+    }
 }

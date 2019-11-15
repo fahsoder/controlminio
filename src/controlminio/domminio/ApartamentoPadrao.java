@@ -4,8 +4,10 @@ public class ApartamentoPadrao extends Apartamento {
     private String tipoApartamento;
     private String tipoPiso;
 
-    public ApartamentoPadrao() {
-        super(idApartamento);
+    public ApartamentoPadrao(int idApartamento, Edificio edificio, int andar, Pessoa proprietario, String tipoApartamento, String tipoPiso) {
+        super(idApartamento, edificio, andar, proprietario);
+        this.tipoApartamento = tipoApartamento;
+        this.tipoPiso = tipoPiso;
     }
 
     public String getTipoApartamento() {
@@ -23,5 +25,4 @@ public class ApartamentoPadrao extends Apartamento {
     public void setTipoPiso(String tipoPiso) {
         this.tipoPiso = tipoPiso;
     }
-
 }
