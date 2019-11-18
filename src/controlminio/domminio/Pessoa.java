@@ -3,16 +3,16 @@ package controlminio.domminio;
 import java.util.Date;
 
 public class  Pessoa {
-    private int idUsuario;
+    private Long idUsuario;
     private String nome;
     private String cpf;
     private String rg;
     private String sexo;
-    private int idade;
+    private Integer idade;
     private Date dataNascimento;
     private Apartamento propietario;
 
-    public int getIdUsuario() {
+    public Integer getIdUsuario() {
         return idUsuario;
     }
 
@@ -32,7 +32,7 @@ public class  Pessoa {
         return sexo;
     }
 
-    public int getIdade() {
+    public Integer getIdade() {
         return idade;
     }
 

@@ -1,21 +1,25 @@
 package controlminio.domminio;
 
+import java.util.Random;
+
+
 public abstract class Apartamento {
 
-    private int idApartamento;
+    private Long idApartamento;
     private Edificio edificio;
     private int andar;
     private Pessoa proprietario;
 
-    public Apartamento(int idApartamento, Edificio edificio, int andar, Pessoa proprietario) {
-        this.idApartamento = idApartamento;
+    public Apartamento(Edificio edificio, int andar, Pessoa proprietario) {
+        this.idApartamento = this.criarId();
         this.edificio = edificio;
         this.andar = andar;
         this.proprietario = proprietario;
     }
 
-    public void criarID(int idApartamento) {
-        this.idApartamento += 1;
+    private Long criarId() {
+        Random rand = new Random();
+        return rand.nextLong();
     }
 
     public void setEdificio(Edificio edificio) {
@@ -30,7 +34,7 @@ public abstract class Apartamento {
         this.proprietario = proprietario;
     }
 
-    public int getIdApartamento() {
+    public Long getIdApartamento() {
         return idApartamento;
     }
 
@@ -38,7 +42,7 @@ public abstract class Apartamento {
         return edificio;
     }
 
-    public int getAndar() {
+    public Integer getAndar() {
         return andar;
     }
 

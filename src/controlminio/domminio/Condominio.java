@@ -1,13 +1,13 @@
 package controlminio.domminio;
 // Criar metodo para Ids infinitos;
 public class Condominio {
-    private int idCondominio;
+    private Long idCondominio;
     private String nome;
     private String cidade;
     private String bairro;
     private String endereco;
 
-    public Condominio(int idCondominio, String nome, String cidade, String bairro, String endereco) {
+    public Condominio(String nome, String cidade, String bairro, String endereco) {
         this.idCondominio = idCondominio;
         this.nome = nome;
         this.cidade = cidade;
@@ -18,6 +18,7 @@ public class Condominio {
     public String getEndereco() {
         return endereco;
     }
+
     public String getBairro() {
         return bairro;
     }
@@ -26,7 +27,7 @@ public class Condominio {
         return cidade;
     }
 
-    public int getIdCondominio() {
+    public Long getIdCondominio() {
         return idCondominio;
     }
 

@@ -1,10 +1,10 @@
 package controlminio.domminio;
 
 public class Edificio  {
-    private int idEdificio;
+    private Integer idEdificio;
     private Condominio condominio;
     private String cor;
-    private int qntAndar;
+    private Integer qntAndar;
 
     public Edificio() {
         this.idEdificio = idEdificio;
@@ -13,11 +13,11 @@ public class Edificio  {
         this.qntAndar = qntAndar;
     }
 
-    public int getIdEdificio() {
+    public Integer getIdEdificio() {
         return idEdificio;
     }
 
-    public int getQntAndar() {
+    public Integer getQntAndar() {
         return qntAndar;
     }
 
