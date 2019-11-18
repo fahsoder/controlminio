@@ -45,12 +45,7 @@ CREATE TABLE IF NOT EXISTS `controlminio`.`Pessoa` (
   `nascimento` DATE NOT NULL,
   `idApartamento` INT NULL,
   PRIMARY KEY (`idPessoa`),
-  INDEX `FK_Apartamento_idApartamento_idx` (`idApartamento` ASC),
-  CONSTRAINT `FK_Apartamento_idApartamento`
-    FOREIGN KEY (`idApartamento`)
-    REFERENCES `controlminio`.`Apartamento` (`idApartamento`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+  INDEX `FK_Apartamento_idApartamento_idx` (`idApartamento` ASC));
 
 
 -- -----------------------------------------------------
@@ -111,3 +106,10 @@ CREATE TABLE IF NOT EXISTS `controlminio`.`ApartamentoPadrao` (
     REFERENCES `controlminio`.`Apartamento` (`idApartamento`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+    
+ALTER TABLE Pessoa 
+	ADD CONSTRAINT `FK_Apartamento_idApartamento`
+    FOREIGN KEY (`idApartamento`)
+    REFERENCES `controlminio`.`Apartamento` (`idApartamento`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION;
