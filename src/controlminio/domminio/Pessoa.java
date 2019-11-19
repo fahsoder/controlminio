@@ -12,7 +12,15 @@ public class  Pessoa {
     private Date dataNascimento;
     private Apartamento propietario;
 
-    public Integer getIdUsuario() {
+    public Pessoa(String nome, String cpf, String rg, String sexo, Date dataNascimento) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+    }
+
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
