@@ -1,4 +1,9 @@
 package controlminio.domminio;
+
+import controlminio.bdConnection.MysqlConnect;
+
+import java.sql.SQLException;
+
 // Criar metodo para Ids infinitos;
 public class Condominio {
     private Long idCondominio;
@@ -6,35 +11,40 @@ public class Condominio {
     private String cidade;
     private String bairro;
     private String endereco;
+    private Integer numero;
 
-    Utilitarios utilitarios;
-
-    public Condominio(String nome, String cidade, String bairro, String endereco) {
-        this.idCondominio = utilitarios.criarId();
+    public Condominio(String nome, String cidade, String bairro, String endereco, Integer numero) throws SQLException {
         this.nome = nome;
         this.cidade = cidade;
         this.bairro = bairro;
         this.endereco = endereco;
+        this.numero = numero;
+
+        save();
     }
 
     public String getEndereco() {
-        return endereco;
+        return this.endereco;
     }
 
     public String getBairro() {
-        return bairro;
+        return this.bairro;
     }
 
     public String getCidade() {
-        return cidade;
+        return this.cidade;
     }
 
     public Long getIdCondominio() {
-        return idCondominio;
+        return this.idCondominio;
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
+    }
+
+    public Integer getNumero() {
+        return this.numero;
     }
 
     public void setNome(String nome) {
@@ -51,6 +61,13 @@ public class Condominio {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    private void save() throws SQLException {
+        MysqlConnect conn = MysqlConnect.getDbCon();
+
+        this.idCondominio = (Long) (long) conn.insert("INSERT INTO Condominio (endereco, nome, cidade, bairro, numero) " +
+                "VALUES ('" + this.endereco + "', '" + this.nome + "', '" + this.cidade + "', '" + this.bairro + "', '" + this.numero + "')");
     }
 
 }

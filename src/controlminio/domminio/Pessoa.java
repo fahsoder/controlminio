@@ -1,8 +1,10 @@
 package controlminio.domminio;
 
+import controlminio.bdConnection.MysqlConnect;
+
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 
 public class  Pessoa {
     private Long idUsuario;
@@ -14,16 +16,15 @@ public class  Pessoa {
     private LocalDate dataNascimento;
     private Apartamento apartamento;
 
-    Utilitarios utilitarios;
-
-    public Pessoa(String nome, String cpf, String rg, String sexo, LocalDate dataNascimento){
-        this.idUsuario = utilitarios.criarId();
+    public Pessoa(String nome, String cpf, String rg, String sexo, LocalDate dataNascimento) throws SQLException {
         this.nome = nome;
         this.cpf = cpf;
         this.rg = rg;
         this.sexo = sexo;
         this.dataNascimento = dataNascimento;
         this.idade = calculaIdade(dataNascimento);
+
+        save();
     }
 
     public Long getIdUsuario() {
@@ -92,5 +93,12 @@ public class  Pessoa {
         Integer idade = diff.getYears();
 
         return idade;
+    }
+
+    private void save() throws SQLException {
+        MysqlConnect conn = MysqlConnect.getDbCon();
+
+        this.idUsuario = (Long) (long) conn.insert("INSERT INTO Pessoa (nome, cpf, rg, sexo, nascimento, idApartamento) " +
+                "VALUES ('" + this.nome + "', '" + this.cpf + "', '" + this.rg + "', '" + this.sexo +  "', '" + this.dataNascimento.toString() +  "', '" + this.apartamento.getIdApartamento() + "')");
     }
 }
