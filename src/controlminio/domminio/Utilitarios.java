@@ -2,7 +2,7 @@ package controlminio.domminio;
 
 import java.util.Random;
 
-public class Utilitários {
+public class Utilitarios {
     public Long criarId() {
         Random rand = new Random();
         return rand.nextLong();

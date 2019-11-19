@@ -7,12 +7,14 @@ public class Condominio {
     private String bairro;
     private String endereco;
 
+    Utilitarios utilitarios;
+
     public Condominio(String nome, String cidade, String bairro, String endereco) {
-        this.idCondominio = idCondominio;
+        this.idCondominio = utilitarios.criarId();
         this.nome = nome;
         this.cidade = cidade;
         this.bairro = bairro;
-        this. endereco = endereco;
+        this.endereco = endereco;
     }
 
     public String getEndereco() {
@@ -33,10 +35,6 @@ public class Condominio {
 
     public String getNome() {
         return nome;
-    }
-
-    public void setIdCondominio(int idCondominio) {
-        this.idCondominio += 1;
     }
 
     public void setNome(String nome) {

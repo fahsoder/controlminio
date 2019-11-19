@@ -5,7 +5,7 @@ public class ApartamentoLuxo extends Apartamento {
     private boolean geladeira;
     private boolean fogao;
 
-    public ApartamentoLuxo(Edificio edificio, int andar, Pessoa proprietario, String luminarias, boolean geladeira, boolean fogao) {
+    public ApartamentoLuxo(Edificio edificio, Integer andar, Pessoa proprietario, String luminarias, boolean geladeira, boolean fogao) {
         super(edificio, andar, proprietario);
         this.luminarias = luminarias;
         this.geladeira = geladeira;

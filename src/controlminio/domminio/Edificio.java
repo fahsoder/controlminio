@@ -1,19 +1,21 @@
 package controlminio.domminio;
 
 public class Edificio  {
-    private Integer idEdificio;
+    private Long idEdificio;
     private Condominio condominio;
     private String cor;
     private Integer qntAndar;
 
-    public Edificio() {
-        this.idEdificio = idEdificio;
+    Utilitarios utilitarios;
+
+    public Edificio(Condominio condominio, String cor, Integer qntAndar) {
+        this.idEdificio = utilitarios.criarId();
         this.condominio = condominio;
         this.cor = cor;
         this.qntAndar = qntAndar;
     }
 
-    public Integer getIdEdificio() {
+    public Long getIdEdificio() {
         return idEdificio;
     }
 

@@ -1,5 +1,7 @@
 package controlminio.domminio;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 
 public class  Pessoa {
@@ -9,43 +11,51 @@ public class  Pessoa {
     private String rg;
     private String sexo;
     private Integer idade;
-    private Date dataNascimento;
-    private Apartamento propietario;
+    private LocalDate dataNascimento;
+    private Apartamento apartamento;
 
-    public Integer getIdUsuario() {
-        return idUsuario;
+    Utilitarios utilitarios;
+
+    public Pessoa(String nome, String cpf, String rg, String sexo, LocalDate dataNascimento){
+        this.idUsuario = utilitarios.criarId();
+        this.nome = nome;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+        this.idade = calculaIdade(dataNascimento);
+    }
+
+    public Long getIdUsuario() {
+        return this.idUsuario;
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public String getCpf() {
-        return cpf;
+        return this.cpf;
     }
 
     public String getRg() {
-        return rg;
+        return this.rg;
     }
 
     public String getSexo() {
-        return sexo;
+        return this.sexo;
     }
 
     public Integer getIdade() {
-        return idade;
+        return this.idade;
     }
 
-    public Date getDataNascimento() {
-        return dataNascimento;
+    public LocalDate getDataNascimento() {
+        return this.dataNascimento;
     }
 
-    public Apartamento getPropietario() {
-        return propietario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario += 1;
+    public Apartamento getApartamento() {
+        return this.apartamento;
     }
 
     public void setNome(String nome) {
@@ -68,11 +78,19 @@ public class  Pessoa {
         this.idade = idade;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
-    public void setPropietario(Apartamento propietario) {
-        this.propietario = propietario;
+    public void setApartamento(Apartamento apartamento) {
+        this.apartamento = apartamento;
+    }
+
+    private Integer calculaIdade(LocalDate dataNascimento) {
+        LocalDate now = LocalDate.now();
+        Period diff = Period.between(dataNascimento, now);
+        Integer idade = diff.getYears();
+
+        return idade;
     }
 }

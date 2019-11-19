@@ -7,26 +7,23 @@ public abstract class Apartamento {
 
     private Long idApartamento;
     private Edificio edificio;
-    private int andar;
+    private Integer andar;
     private Pessoa proprietario;
 
-    public Apartamento(Edificio edificio, int andar, Pessoa proprietario) {
-        this.idApartamento = this.criarId();
+    Utilitarios utilitarios;
+
+    public Apartamento(Edificio edificio, Integer andar, Pessoa proprietario) {
+        this.idApartamento = utilitarios.criarId();
         this.edificio = edificio;
         this.andar = andar;
         this.proprietario = proprietario;
-    }
-
-    private Long criarId() {
-        Random rand = new Random();
-        return rand.nextLong();
     }
 
     public void setEdificio(Edificio edificio) {
         this.edificio = edificio;
     }
 
-    public void setAndar(int andar) {
+    public void setAndar(Integer andar) {
         this.andar = andar;
     }
 
