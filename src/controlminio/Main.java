@@ -1,5 +1,12 @@
 package controlminio;
 
+import controlminio.bdConnection.MysqlConnect;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -120,6 +127,18 @@ public class Main {
 
         }
 
+    }
+
+    private ResultSet listarCondominios() throws SQLException {
+        MysqlConnect conn = MysqlConnect.getDbCon();
+        ArrayList<Map> result = new ArrayList<>();
+        ResultSet resultSet = conn.query("SELECT * FROM Condominio");
+
+        while(resultSet.next()) {
+            Map<Integer, String> condominio = new HashMap();
+            condominio.put(Integer.parseInt(resultSet.getString("idCondominio")), resultSet.getString("nome"));
+            result.add(condominio);
+        }
     }
 
 }

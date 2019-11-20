@@ -4,7 +4,6 @@ import controlminio.bdConnection.MysqlConnect;
 
 import java.sql.SQLException;
 
-// Criar metodo para Ids infinitos;
 public class Condominio {
     private Long idCondominio;
     private String nome;
