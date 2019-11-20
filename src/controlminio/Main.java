@@ -110,7 +110,12 @@ public class Main {
                         System.out.println("Adiconadp o condomínio " + idCondominio);
 
                     }else if(escolha_edificio == 3) {
-                        System.out.println("Deleta EDIFICIO");
+                        Long idEdificio = 0L;
+                        if (deletarCondominio(idEdificio)) {
+                            System.out.println("Edificio " + idEdificio + "deletado!");
+                        } else {
+                            System.out.println("Erro ao deletar o edificio!");
+                        }
 
                     }else if(escolha_edificio == 0) {
 
