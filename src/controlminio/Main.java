@@ -69,6 +69,10 @@ public class Main {
 
                     }else if(escolha_condominio == 3) {
                         Long idCondominio = 0L;
+                        
+                        System.out.print("Digite o ID do condominio que voce deseja: ");
+                        idCondominio = leitor.nextLong();
+                        
                         if (deletarCondominio(idCondominio)) {
                             System.out.println("Condominio " + idCondominio + "deletado!");
                         } else {
