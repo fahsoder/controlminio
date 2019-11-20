@@ -2,6 +2,7 @@ package controlminio;
 
 import controlminio.bdConnection.MysqlConnect;
 import controlminio.domminio.Condominio;
+import controlminio.domminio.Edificio;
 import controlminio.fabrica.FactoryApartamento;
 
 import java.sql.ResultSet;
@@ -52,15 +53,15 @@ public class Main {
                         }
 
                     }else if(escolha_condominio == 2) {
-                    	System.out.print("Nome do condomínio: ");
+                    	System.out.print("Nome do condomÃ­nio: ");
                         String nome = leitor.nextLine();
                         System.out.print("Cidade: ");
                         String cidade = leitor.nextLine();
                         System.out.print("Bairro: ");
                         String bairro = leitor.nextLine();
-                        System.out.print("Endereço: ");
+                        System.out.print("EndereÃ§o: ");
                         String endereco = leitor.nextLine();
-                        System.out.print("Número: ");                        
+                        System.out.print("NÃºmero: ");
                         Integer numero = leitor.nextInt();
 
                         Long idCondominio = adicionarCondominio(nome, cidade, bairro, endereco, numero);
@@ -95,10 +96,18 @@ public class Main {
                     escolha_edificio = leitor.nextInt();
                     if(escolha_edificio == 1) {
                         System.out.println("LISTA DE EDIFICIO");
+                        ArrayList<Map<String, String>> edificios = listarEdificios();
+                        for (int i = 0; i < edificios.size(); i++) {
+                            System.out.println(" ");
+                            System.out.println("Id - " + edificios.get(i).get("idEdificio"));
+                            System.out.println("Numero - " + edificios.get(i).get("numero"));
+                            System.out.println("Id Condominio - " + edificios.get(i).get("idCondominio"));
+                        }
 
 
                     }else if(escolha_edificio == 2) {
-                        System.out.println("Adicona EDIFICIO");
+                        Long idCondominio = adicionarCondominio(nome, cidade, bairro, endereco, numero);
+                        System.out.println("Adiconadp o condomÃ­nio " + idCondominio);
 
                     }else if(escolha_edificio == 3) {
                         System.out.println("Deleta EDIFICIO");
@@ -184,5 +193,39 @@ public class Main {
             return false;
         }
     }
+
+    private static ArrayList<Map<String, String>> listarEdificios() throws SQLException {
+        MysqlConnect conn = MysqlConnect.getDbCon();
+        ArrayList<Map<String, String>> result = new ArrayList<Map<String, String>>();
+        ResultSet resultSet = conn.query("SELECT * FROM Edificio");
+
+        while(resultSet.next()) {
+            HashMap<String, String> edificio = new HashMap<>();
+            edificio.put("idEdificio", resultSet.getString("idEdificio"));
+            edificio.put("numero", resultSet.getString("numero"));
+            edificio.put("idCondominio", resultSet.getString("idCondominio"));
+            result.add(edificio);
+        }
+
+        return result;
+    }
+
+
+    private static Long adicionarEdificio(Condominio condominio, Integer numero, String cor, Integer qtdAndar) throws SQLException {
+        Edificio edificio = new Edificio(condominio, numero, cor, qtdAndar);
+
+        return edificio.getIdEdificio();
+    }
+
+    private static Boolean deletarEdificio(Long idEdificio) throws SQLException {
+        MysqlConnect conn = MysqlConnect.getDbCon();
+        try {
+            conn.query("DELETE FROM Edificio WHERE idEdificio = " + idEdificio);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
 }
