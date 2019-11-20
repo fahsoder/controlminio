@@ -8,7 +8,7 @@ public class ApartamentoPadrao extends Apartamento {
     private String tipoPiso;
     private String tipoArmario;
 
-    public ApartamentoPadrao(Edificio edificio, int andar, Pessoa proprietario, Integer numero, String tipoPiso, String tipoArmario) throws SQLException {
+    public ApartamentoPadrao(Edificio edificio, int andar, Integer numero, String tipoPiso, String tipoArmario) throws SQLException {
         super(edificio, andar, numero, TipoApartamento.PADRAO);
         this.tipoArmario = tipoArmario;
         this.tipoPiso = tipoPiso;

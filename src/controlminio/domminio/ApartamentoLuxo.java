@@ -9,7 +9,7 @@ public class ApartamentoLuxo extends Apartamento {
     private boolean geladeira;
     private boolean fogao;
 
-    public ApartamentoLuxo(Edificio edificio, Integer andar, Pessoa proprietario, String luminarias, Integer numero, boolean geladeira, boolean fogao) throws SQLException {
+    public ApartamentoLuxo(Edificio edificio, Integer andar, String luminarias, Integer numero, boolean geladeira, boolean fogao) throws SQLException {
         super(edificio, andar, numero, TipoApartamento.LUXO );
         this.luminarias = luminarias;
         this.geladeira = geladeira;
