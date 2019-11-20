@@ -40,7 +40,7 @@ public class Main {
 
                     if(escolha_condominio == 1) {
                         System.out.println("LISTA DE CONDOMINIO");
-
+                        ArrayList<Map> condominios = listarCondominios();
 
                     }else if(escolha_condominio == 2) {
                         System.out.println("Adicona condomínio");
@@ -129,7 +129,7 @@ public class Main {
 
     }
 
-    private ResultSet listarCondominios() throws SQLException {
+    private ArrayList<Map> listarCondominios() throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
         ArrayList<Map> result = new ArrayList<>();
         ResultSet resultSet = conn.query("SELECT * FROM Condominio");
@@ -139,6 +139,8 @@ public class Main {
             condominio.put(Integer.parseInt(resultSet.getString("idCondominio")), resultSet.getString("nome"));
             result.add(condominio);
         }
+
+        return result;
     }
 
 }
