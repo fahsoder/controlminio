@@ -43,7 +43,7 @@ public class Main {
                     escolha_condominio = leitor.nextInt();
 
                     if(escolha_condominio == 1) {
-                        System.out.println("LISTA DE CONDOMINIO");
+                        System.out.println("==== LISTA DE CONDOMINIO ====");
                         ArrayList<Map<String, String>> condominios = listarCondominios();
                         for (int i = 0; i < condominios.size(); i++) {
                             System.out.println(" ");
@@ -52,11 +52,16 @@ public class Main {
                         }
 
                     }else if(escolha_condominio == 2) {
-                        String nome = "";
-                        String cidade = "";
-                        String bairro = "";
-                        String endereco = "";
-                        Integer numero = 0;
+                    	System.out.print("Nome do condomínio: ");
+                        String nome = leitor.nextLine();
+                        System.out.print("Cidade: ");
+                        String cidade = leitor.nextLine();
+                        System.out.print("Bairro: ");
+                        String bairro = leitor.nextLine();
+                        System.out.print("Endereço: ");
+                        String endereco = leitor.nextLine();
+                        System.out.print("Número: ");                        
+                        Integer numero = leitor.nextInt();
 
                         Long idCondominio = adicionarCondominio(nome, cidade, bairro, endereco, numero);
                         System.out.println("Adiconadp o condomÃ­nio " + idCondominio);
