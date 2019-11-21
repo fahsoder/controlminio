@@ -57,4 +57,10 @@ public final class MysqlConnect {
         return result;
     }
 
+    public int delete(String deleteQuery) throws SQLException {
+        statement = db.conn.createStatement();
+        int result = statement.executeUpdate(deleteQuery);
+        return result;
+    }
+
 } 
