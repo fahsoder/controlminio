@@ -1,6 +1,7 @@
 package controlminio.repositorio;
 
 import controlminio.bdConnection.MysqlConnect;
+import controlminio.domminio.Apartamento;
 import controlminio.domminio.Condominio;
 import controlminio.domminio.Edificio;
 
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BancoApartamento {
-    public static void listarApartamento() throws SQLException {
+    public static void listarApartamentos() throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
         ArrayList<Map<String, String>> result = new ArrayList<Map<String, String>>();
         ResultSet resultSet = conn.query("SELECT * FROM Apartamento");
@@ -33,16 +34,15 @@ public class BancoApartamento {
     }
 
 
-    public static Long adicionarApartamento(String nome, String cidade, String bairro, String endereco, Integer numero) throws SQLException {
-        Condominio condominio = new Condominio(nome, cidade, bairro, endereco, numero);
-
-        return condominio.getIdCondominio();
+    public static Long adicionarApartamento(Apartamento apartamento) throws SQLException {
+        saveApartamento(apartamento);
+        return apartamento.getIdApartamento();
     }
 
-    public static Boolean deletarEdificio(Long idCondominio) throws SQLException {
+    public static Boolean deletarApartamento(Long idApartamento) throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
         try {
-            conn.query("DELETE FROM Condominio WHERE idCondominio = " + idCondominio);
+            conn.query("DELETE FROM Apartamento WHERE idApartamento = " + idApartamento);
             return true;
         } catch (Exception e) {
             return false;
@@ -50,10 +50,17 @@ public class BancoApartamento {
     }
 
 
-    public void saveEdificio(Edificio edificio) throws SQLException {
+    private static void saveApartamento(Apartamento apartamento) throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
 
-        edificio.setIdEdificio((Long) (long) conn.insert("INSERT INTO Edificio (numero, cor, quantidadeAndar, idCondominio) " +
-                "VALUES ('" + edificio.getNumero() + "', '" + edificio.getCor() + "', '" + edificio.getQntAndar() +  "', '" + edificio.getCondominio().getIdCondominio() + "')"));
+        apartamento.setIdApartamento((Long) (long) conn.insert("INSERT INTO Apartamento (idEdificio, andar, numero, tipo) " +
+                "VALUES ('" + apartamento.getEdificio().getIdEdificio() + "', '" + apartamento.getAndar() + "', '" + apartamento.getNumero() +
+                "', '" + apartamento.getTipoApartamento().name() + "')"));
+    }
+
+    private void saveProprietario() throws SQLException {
+        MysqlConnect conn = MysqlConnect.getDbCon();
+
+        conn.insert("UPDATE Apartamento SET idProprietario = " + this.proprietario.getIdUsuario());
     }
 }

@@ -19,8 +19,6 @@ public abstract class Apartamento {
         this.andar = andar;
         this.numero = numero;
         this.tipoApartamento = tipoApartamento;
-
-        save();
     }
 
     public void setEdificio(Edificio edificio) {
@@ -33,7 +31,10 @@ public abstract class Apartamento {
 
     public void setProprietario(Pessoa proprietario) throws SQLException {
         this.proprietario = proprietario;
-        saveProprietario();
+    }
+
+    public void setIdApartamento(Long idApartamento) {
+        this.idApartamento = idApartamento;
     }
 
     public void setNumero(Integer numero) {
@@ -68,18 +69,6 @@ public abstract class Apartamento {
         return this.tipoApartamento;
     }
 
-    private void save() throws SQLException {
-        MysqlConnect conn = MysqlConnect.getDbCon();
 
-        this.idApartamento = (Long) (long) conn.insert("INSERT INTO Apartamento (idEdificio, andar, numero, tipo) " +
-                "VALUES ('" + this.getEdificio().getIdEdificio() + "', '" + this.getAndar() + "', '" + this.getNumero() +
-                "', '" + this.tipoApartamento.name() + "')");
-    }
-
-    private void saveProprietario() throws SQLException {
-        MysqlConnect conn = MysqlConnect.getDbCon();
-
-        conn.insert("UPDATE Apartamento SET idProprietario = " + this.proprietario.getIdUsuario());
-    }
 
 }

@@ -1,5 +1,7 @@
 package controlminio;
 
+import controlminio.domminio.Apartamento;
+import controlminio.domminio.ApartamentoLuxo;
 import controlminio.fabrica.FactoryApartamento;
 
 import java.sql.SQLException;
@@ -9,15 +11,16 @@ import java.util.Scanner;
 
 import static controlminio.repositorio.BancoCondominio.*;
 import static controlminio.repositorio.BancoEdificio.*;
+import static controlminio.repositorio.BancoApartamento.*;
 
 public class Main {
 
-    FactoryApartamento factoryApartamento;
+    static FactoryApartamento factoryApartamento;
+    static Scanner leitor = new Scanner(System.in);
 
     public static void main(String[] args) throws SQLException {
 
         int escolha = 99, escolha_condominio = 99, escolha_apto = 99, escolha_edificio;
-        Scanner leitor = new Scanner(System.in);
 
         while(escolha != 0) {
             escolha = 99; escolha_condominio = 99; escolha_apto = 99; escolha_edificio = 99;
@@ -142,13 +145,24 @@ public class Main {
                     if(escolha_apto == 1) {
                         System.out.println("LISTA DE APARTAMENTOS");
 
-                        // depois de fazer tudo que precisava, escolha_APTO vai para 0 para poder sair do loop
-                        //escolha_apto = 0;
+                        listarApartamentos();
                     }else if(escolha_apto == 2) {
-                        System.out.println("Adicona APARTAMENTO");
-
+                        System.out.println("ADICIONAR DE APARTAMENTOS");
+                        System.out.println("Qual o tipo de apartamento que deseja adicionar? Luxo(1) ou Padrao(2)?");
+                        Integer tipoAp = leitor.nextInt();
+                        Apartamento apartamento = validaApartamento(tipoAp);
+                        Long idApartamento = adicionarApartamento(apartamento);
+                        System.out.println("Apartamento " + idApartamento + " adicionado!");
                     }else if(escolha_apto == 3) {
                         System.out.println("Deleta APARTAMENTO");
+                        listarApartamentos();
+                        System.out.println("Digite o ID do apartamento que deseja deletar");
+                        Long idApartamento = leitor.nextLong();
+                        if (deletarApartamento(idApartamento)) {
+                            System.out.println("Apartamento " + idApartamento + " deletado!");
+                        } else {
+                            System.out.println("Erro ao deletar apartamento");
+                        }
 
                     }else if(escolha_apto == 0) {
 
@@ -165,9 +179,43 @@ public class Main {
                 System.out.println("Opção inválida");
 
             }
-
-
         }
+    }
+    private static Apartamento validaApartamento(Integer tipoAp) throws SQLException {
+        Apartamento apartamento = null;
+
+        System.out.println("Listagem de edificios");
+        listarEdificios();
+        System.out.println("Digite o ID do Edificio");
+        Long idEdificio = leitor.nextLong();
+        System.out.println("Digite o andar do apartamento");
+        Integer andar = leitor.nextInt();
+        System.out.println("Digite o numero do apartamento");
+        Integer numero = leitor.nextInt();
+        if (tipoAp == 1) {
+            System.out.println("Digite o modelo das luminarias");
+            String luminarias = leitor.nextLine();
+            System.out.println("O apartamento possui geladeira? Sim(1) ou Nao(2)?");
+            Integer geladeira = leitor.nextInt();
+            System.out.println("O apartamento possui Fogao? Sim(1) ou Nao(2)?");
+            Integer fogao = leitor.nextInt();
+
+            boolean boolGeladeira = false;
+            boolean boolFogao = false;
+            if (geladeira == 1) { boolGeladeira = true; }
+            if (fogao == 1) { boolFogao = true; }
+
+            apartamento = factoryApartamento.getApartamento(getEdificioById(idEdificio), andar, luminarias, numero, boolGeladeira, boolFogao);
+        } else if (tipoAp == 2) {
+            System.out.println("Digite o tipo de piso");
+            String tipoPiso = leitor.nextLine();
+            System.out.println("Digite o tipo de armario");
+            String tipoArmario = leitor.nextLine();
+
+            apartamento = factoryApartamento.getApartamento(getEdificioById(idEdificio), andar, numero, tipoPiso, tipoArmario);
+        }
+
+        return apartamento;
 
     }
 
