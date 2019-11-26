@@ -33,7 +33,7 @@ public class BancoCondominio {
 
     public static Long adicionarCondominio(String nome, String cidade, String bairro, String endereco, Integer numero) throws SQLException {
         Condominio condominio = new Condominio(nome, cidade, bairro, endereco, numero);
-
+        saveCondominio(condominio);
         return condominio.getIdCondominio();
     }
 
@@ -47,7 +47,13 @@ public class BancoCondominio {
         }
     }
 
-    private void saveCondominio(Condominio condominio) throws SQLException {
+    public static Condominio getCondominioById(Long idCondominio) throws SQLException {
+        MysqlConnect conn = MysqlConnect.getDbCon();
+        ResultSet resultSet = conn.query("SELECT * FROM Condominio WHERE idCondominio = " + idCondominio);
+        return new Condominio(resultSet.getString("nome"), resultSet.getString("cidade"), resultSet.getString("bairro"), resultSet.getString("endereco"), Integer.parseInt(resultSet.getString("numero")));
+    }
+
+    private static void saveCondominio(Condominio condominio) throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
 
         condominio.setIdCondominio((Long) (long) conn.insert("INSERT INTO Condominio (endereco, nome, cidade, bairro, numero) " +

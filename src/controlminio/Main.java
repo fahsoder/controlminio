@@ -53,9 +53,9 @@ public class Main {
                         String cidade = leitor.nextLine();
                         System.out.print("Bairro: ");
                         String bairro = leitor.nextLine();
-                        System.out.print("Endere�o: ");
+                        System.out.print("Endereco: ");
                         String endereco = leitor.nextLine();
-                        System.out.print("N�mero: ");                        
+                        System.out.print("Numero: ");
                         Integer numero = leitor.nextInt();
 
                         Long idCondominio = adicionarCondominio(nome, cidade, bairro, endereco, numero);
@@ -96,14 +96,18 @@ public class Main {
                         listarEdificios();
 
                     }else if(escolha_edificio == 2) {
-                        System.out.println("Adicona EDIFICIO");
-                        //TODO
-                        String nome = leitor.nextLine();
-                        String cidade = leitor.nextLine();
-                        String bairro = leitor.nextLine();
-                        String endereco = leitor.nextLine();
+                        System.out.println("Listagem de condominio");
+                        listarCondominios();
+                        System.out.println("Digite o ID do condominio");
+                        Long idCondominio = leitor.nextLong();
+                        System.out.println("Digite a cor do edificio");
+                        String cor = leitor.nextLine();
+                        System.out.println("Digite a quantidade do numero de andares do edificio");
+                        Integer qntAndar = leitor.nextInt();
+                        System.out.println("Digite o numero do edificio");
                         Integer numero = leitor.nextInt();
-                        adicionarEdificio(nome, cidade, bairro, endereco, numero);
+                        Long idEdificio = adicionarEdificio(idCondominio, numero, cor, qntAndar);
+                        System.out.println("Edificio " + idEdificio + " adicionado com sucesso!");
 
                     }else if(escolha_edificio == 3) {
                         System.out.println("Listagem de edificios:");

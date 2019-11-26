@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static controlminio.repositorio.BancoCondominio.getCondominioById;
+
 public class BancoEdificio {
     public static void listarEdificios() throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
@@ -32,10 +34,12 @@ public class BancoEdificio {
     }
 
 
-    public static Long adicionarEdificio(String nome, String cidade, String bairro, String endereco, Integer numero) throws SQLException {
-        Condominio condominio = new Condominio(nome, cidade, bairro, endereco, numero);
+    public static Long adicionarEdificio(Long idCondominio, Integer numero, String cor, Integer qntAndar) throws SQLException {
+        Condominio condominio = getCondominioById(idCondominio);
 
-        return condominio.getIdCondominio();
+        Edificio edificio = new Edificio(condominio, numero, cor, qntAndar);
+        saveEdificio(edificio);
+        return edificio.getIdEdificio();
     }
 
     public static Boolean deletarEdificio(Long idCondominio) throws SQLException {
@@ -48,8 +52,14 @@ public class BancoEdificio {
         }
     }
 
+    public static Edificio getEdificioById(Long idEdificio) throws SQLException {
+        MysqlConnect conn = MysqlConnect.getDbCon();
+        ResultSet resultSet = conn.query("SELECT * FROM Edificio WHERE idEdificio = " + idEdificio);
+        Condominio condominio = getCondominioById(Long.parseLong(resultSet.getString("idCondominio")));
+        return new Edificio(condominio, Integer.parseInt(resultSet.getString("numero")), resultSet.getString("cor"), Integer.parseInt(resultSet.getString("qntAndar")));
+    }
 
-    public void saveEdificio(Edificio edificio) throws SQLException {
+    private static void saveEdificio(Edificio edificio) throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
 
         edificio.setIdEdificio((Long) (long) conn.insert("INSERT INTO Edificio (numero, cor, quantidadeAndar, idCondominio) " +
