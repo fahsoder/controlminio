@@ -1,24 +1,26 @@
 package controlminio;
 
-import controlminio.bdConnection.MysqlConnect;
-import controlminio.domminio.Condominio;
+import controlminio.domminio.Apartamento;
+import controlminio.domminio.ApartamentoLuxo;
 import controlminio.fabrica.FactoryApartamento;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import static controlminio.repositorio.BancoCondominio.*;
+import static controlminio.repositorio.BancoEdificio.*;
+import static controlminio.repositorio.BancoApartamento.*;
+
 public class Main {
 
-    FactoryApartamento factoryApartamento;
+    static FactoryApartamento factoryApartamento;
+    static Scanner leitor = new Scanner(System.in);
 
     public static void main(String[] args) throws SQLException {
 
         int escolha = 99, escolha_condominio = 99, escolha_apto = 99, escolha_edificio;
-        Scanner leitor = new Scanner(System.in);
 
         while(escolha != 0) {
             escolha = 99; escolha_condominio = 99; escolha_apto = 99; escolha_edificio = 99;
@@ -44,32 +46,31 @@ public class Main {
 
                     if(escolha_condominio == 1) {
                         System.out.println("==== LISTA DE CONDOMINIO ====");
-                        ArrayList<Map<String, String>> condominios = listarCondominios();
-                        for (int i = 0; i < condominios.size(); i++) {
-                            System.out.println(" ");
-                            System.out.println("Id - " + condominios.get(i).get("idCondominio"));
-                            System.out.println("Nome - " + condominios.get(i).get("nome"));
-                        }
+                        listarCondominios();
+
 
                     }else if(escolha_condominio == 2) {
-                    	System.out.print("Nome do condomínio: ");
+                    	System.out.print("Nome do condomï¿½nio: ");
                         String nome = leitor.nextLine();
                         System.out.print("Cidade: ");
                         String cidade = leitor.nextLine();
                         System.out.print("Bairro: ");
                         String bairro = leitor.nextLine();
-                        System.out.print("Endereço: ");
+                        System.out.print("Endereco: ");
                         String endereco = leitor.nextLine();
-                        System.out.print("Número: ");                        
+                        System.out.print("Numero: ");
                         Integer numero = leitor.nextInt();
 
                         Long idCondominio = adicionarCondominio(nome, cidade, bairro, endereco, numero);
                         System.out.println("Adiconadp o condomÃ­nio " + idCondominio);
 
                     }else if(escolha_condominio == 3) {
-                        Long idCondominio = 0L;
+                        System.out.println("Listagem de condominios:");
+                        listarCondominios();
+                        System.out.println("Digite o ID do condominio que deseja deletar");
+                        Long idCondominio = leitor.nextLong();
                         if (deletarCondominio(idCondominio)) {
-                            System.out.println("Condominio " + idCondominio + "deletado!");
+                            System.out.println("Condominio " + idCondominio + " deletado!");
                         } else {
                             System.out.println("Erro ao deletar o condomÃ­nio!");
                         }
@@ -95,13 +96,32 @@ public class Main {
                     escolha_edificio = leitor.nextInt();
                     if(escolha_edificio == 1) {
                         System.out.println("LISTA DE EDIFICIO");
-
+                        listarEdificios();
 
                     }else if(escolha_edificio == 2) {
-                        System.out.println("Adicona EDIFICIO");
+                        System.out.println("Listagem de condominio");
+                        listarCondominios();
+                        System.out.println("Digite o ID do condominio");
+                        Long idCondominio = leitor.nextLong();
+                        System.out.println("Digite a cor do edificio");
+                        String cor = leitor.nextLine();
+                        System.out.println("Digite a quantidade do numero de andares do edificio");
+                        Integer qntAndar = leitor.nextInt();
+                        System.out.println("Digite o numero do edificio");
+                        Integer numero = leitor.nextInt();
+                        Long idEdificio = adicionarEdificio(idCondominio, numero, cor, qntAndar);
+                        System.out.println("Edificio " + idEdificio + " adicionado com sucesso!");
 
                     }else if(escolha_edificio == 3) {
-                        System.out.println("Deleta EDIFICIO");
+                        System.out.println("Listagem de edificios:");
+                        listarEdificios();
+                        System.out.println("Digite o ID do edificio que deseja deletar");
+                        Long idEdificio = leitor.nextLong();
+                        if (deletarEdificio(idEdificio)) {
+                            System.out.println("Edificio " + idEdificio + " deletado!");
+                        } else {
+                            System.out.println("Erro ao deletar o edificio!");
+                        }
 
                     }else if(escolha_edificio == 0) {
 
@@ -125,13 +145,24 @@ public class Main {
                     if(escolha_apto == 1) {
                         System.out.println("LISTA DE APARTAMENTOS");
 
-                        // depois de fazer tudo que precisava, escolha_APTO vai para 0 para poder sair do loop
-                        //escolha_apto = 0;
+                        listarApartamentos();
                     }else if(escolha_apto == 2) {
-                        System.out.println("Adicona APARTAMENTO");
-
+                        System.out.println("ADICIONAR DE APARTAMENTOS");
+                        System.out.println("Qual o tipo de apartamento que deseja adicionar? Luxo(1) ou Padrao(2)?");
+                        Integer tipoAp = leitor.nextInt();
+                        Apartamento apartamento = validaApartamento(tipoAp);
+                        Long idApartamento = adicionarApartamento(apartamento);
+                        System.out.println("Apartamento " + idApartamento + " adicionado!");
                     }else if(escolha_apto == 3) {
                         System.out.println("Deleta APARTAMENTO");
+                        listarApartamentos();
+                        System.out.println("Digite o ID do apartamento que deseja deletar");
+                        Long idApartamento = leitor.nextLong();
+                        if (deletarApartamento(idApartamento)) {
+                            System.out.println("Apartamento " + idApartamento + " deletado!");
+                        } else {
+                            System.out.println("Erro ao deletar apartamento");
+                        }
 
                     }else if(escolha_apto == 0) {
 
@@ -148,41 +179,44 @@ public class Main {
                 System.out.println("OpÃ§Ã£o invÃ¡lida");
 
             }
+        }
+    }
+    private static Apartamento validaApartamento(Integer tipoAp) throws SQLException {
+        Apartamento apartamento = null;
 
+        System.out.println("Listagem de edificios");
+        listarEdificios();
+        System.out.println("Digite o ID do Edificio");
+        Long idEdificio = leitor.nextLong();
+        System.out.println("Digite o andar do apartamento");
+        Integer andar = leitor.nextInt();
+        System.out.println("Digite o numero do apartamento");
+        Integer numero = leitor.nextInt();
+        if (tipoAp == 1) {
+            System.out.println("Digite o modelo das luminarias");
+            String luminarias = leitor.nextLine();
+            System.out.println("O apartamento possui geladeira? Sim(1) ou Nao(2)?");
+            Integer geladeira = leitor.nextInt();
+            System.out.println("O apartamento possui Fogao? Sim(1) ou Nao(2)?");
+            Integer fogao = leitor.nextInt();
 
+            boolean boolGeladeira = false;
+            boolean boolFogao = false;
+            if (geladeira == 1) { boolGeladeira = true; }
+            if (fogao == 1) { boolFogao = true; }
+
+            apartamento = factoryApartamento.getApartamento(getEdificioById(idEdificio), andar, luminarias, numero, boolGeladeira, boolFogao);
+        } else if (tipoAp == 2) {
+            System.out.println("Digite o tipo de piso");
+            String tipoPiso = leitor.nextLine();
+            System.out.println("Digite o tipo de armario");
+            String tipoArmario = leitor.nextLine();
+
+            apartamento = factoryApartamento.getApartamento(getEdificioById(idEdificio), andar, numero, tipoPiso, tipoArmario);
         }
 
-    }
+        return apartamento;
 
-    private static ArrayList<Map<String, String>> listarCondominios() throws SQLException {
-        MysqlConnect conn = MysqlConnect.getDbCon();
-        ArrayList<Map<String, String>> result = new ArrayList<Map<String, String>>();
-        ResultSet resultSet = conn.query("SELECT * FROM Condominio");
-
-        while(resultSet.next()) {
-            HashMap<String, String> condominio = new HashMap<>();
-            condominio.put("idCondominio", resultSet.getString("idCondominio"));
-            condominio.put("nome", resultSet.getString("nome"));
-            result.add(condominio);
-        }
-
-        return result;
-    }
-
-    private static Long adicionarCondominio(String nome, String cidade, String bairro, String endereco, Integer numero) throws SQLException {
-        Condominio condominio = new Condominio(nome, cidade, bairro, endereco, numero);
-
-        return condominio.getIdCondominio();
-    }
-
-    private static Boolean deletarCondominio(Long idConcodminio) throws SQLException {
-        MysqlConnect conn = MysqlConnect.getDbCon();
-        try {
-            conn.query("DELETE FROM Condominio WHERE idCondominio = " + idConcodminio);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
 }

@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `controlminio`.`Edificio` (
   `idEdificio` INT NOT NULL AUTO_INCREMENT,
   `numero` INT NOT NULL,
   `cor` VARCHAR(45) NOT NULL,
-  `quantidadeAndar` VARCHAR(45) NOT NULL,
+  `quantidadeAndar` INT NOT NULL,
   `idCondominio` INT NOT NULL,
   PRIMARY KEY (`idEdificio`),
   INDEX `FK_Condominio_idCondominio_idx` (`idCondominio` ASC),
