@@ -16,8 +16,6 @@ public class Edificio  {
         this.numero = numero;
         this.cor = cor;
         this.qntAndar = qntAndar;
-
-        save();
     }
 
     public Long getIdEdificio() {
@@ -40,6 +38,9 @@ public class Edificio  {
         return this.condominio;
     }
 
+    public void setIdEdificio(Long idEdificio) {
+        this.idEdificio = idEdificio;
+    }
     public void setQntAndar(Integer qntAndar) {
         this.qntAndar = qntAndar;
     }
@@ -50,12 +51,5 @@ public class Edificio  {
 
     public void setCor(String cor) {
         this.cor = cor;
-    }
-
-    private void save() throws SQLException {
-        MysqlConnect conn = MysqlConnect.getDbCon();
-
-        this.idEdificio = (Long) (long) conn.insert("INSERT INTO Edificio (numero, cor, quantidadeAndar, idCondominio) " +
-                "VALUES ('" + this.numero + "', '" + this.cor + "', '" + this.qntAndar +  "', '" + this.condominio.getIdCondominio() + "')");
     }
 }
