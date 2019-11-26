@@ -58,9 +58,4 @@ public class BancoApartamento {
                 "', '" + apartamento.getTipoApartamento().name() + "')"));
     }
 
-    private void saveProprietario() throws SQLException {
-        MysqlConnect conn = MysqlConnect.getDbCon();
-
-        conn.insert("UPDATE Apartamento SET idProprietario = " + this.proprietario.getIdUsuario());
-    }
 }
