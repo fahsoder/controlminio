@@ -1,4 +1,4 @@
-package controlminio;
+    package controlminio;
 
 import controlminio.domminio.Apartamento;
 import controlminio.domminio.ApartamentoLuxo;
@@ -44,13 +44,17 @@ public class Main {
                     System.out.println("0) Voltar");
                     escolha_condominio = leitor.nextInt();
 
+
                     if(escolha_condominio == 1) {
                         System.out.println("==== LISTA DE CONDOMINIO ====");
                         listarCondominios();
 
 
                     }else if(escolha_condominio == 2) {
-                    	System.out.print("Nome do condom�nio: ");
+
+                        Scanner leitor = new Scanner(System.in);
+                        
+                        System.out.print("Nome do condom�nio: ");
                         String nome = leitor.nextLine();
                         System.out.print("Cidade: ");
                         String cidade = leitor.nextLine();
@@ -62,7 +66,8 @@ public class Main {
                         Integer numero = leitor.nextInt();
 
                         Long idCondominio = adicionarCondominio(nome, cidade, bairro, endereco, numero);
-                        System.out.println("Adiconadp o condomínio " + idCondominio);
+                        System.out.println("Adiconado o condomínio " + idCondominio);
+                        3
 
                     }else if(escolha_condominio == 3) {
                         System.out.println("Listagem de condominios:");
@@ -97,6 +102,7 @@ public class Main {
                     if(escolha_edificio == 1) {
                         System.out.println("LISTA DE EDIFICIO");
                         listarEdificios();
+                        Scanner leitor = new Scanner(System.in);
 
                     }else if(escolha_edificio == 2) {
                         System.out.println("Listagem de condominio");
@@ -115,6 +121,8 @@ public class Main {
                     }else if(escolha_edificio == 3) {
                         System.out.println("Listagem de edificios:");
                         listarEdificios();
+                        Scanner leitor = new Scanner(System.in);
+
                         System.out.println("Digite o ID do edificio que deseja deletar");
                         Long idEdificio = leitor.nextLong();
                         if (deletarEdificio(idEdificio)) {
@@ -147,6 +155,9 @@ public class Main {
 
                         listarApartamentos();
                     }else if(escolha_apto == 2) {
+
+                        Scanner leitor = new Scanner(System.in);        
+
                         System.out.println("ADICIONAR DE APARTAMENTOS");
                         System.out.println("Qual o tipo de apartamento que deseja adicionar? Luxo(1) ou Padrao(2)?");
                         Integer tipoAp = leitor.nextInt();
@@ -183,6 +194,7 @@ public class Main {
     }
     private static Apartamento validaApartamento(Integer tipoAp) throws SQLException {
         Apartamento apartamento = null;
+        Scanner leitor = new Scanner(System.in);
 
         System.out.println("Listagem de edificios");
         listarEdificios();
