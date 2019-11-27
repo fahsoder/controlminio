@@ -40,7 +40,21 @@ public class BancoApartamento {
     public static Boolean deletarApartamento(Long idApartamento) throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
         try {
-            conn.query("DELETE FROM Apartamento WHERE idApartamento = " + idApartamento);
+            ResultSet resultSet = conn.query("SELECT * FROM Apartamento WHERE idApartamento = " + idApartamento);
+            TipoApartamento tipoApartamento = null;
+            while (resultSet.next()) {
+                if (resultSet.getString("tipo") == TipoApartamento.PADRAO.name()) {
+                    tipoApartamento = TipoApartamento.PADRAO;
+                } else if (resultSet.getString("tipo") == TipoApartamento.LUXO.name()) {
+                    tipoApartamento = TipoApartamento.LUXO;
+                }
+            }
+            conn.insert("DELETE FROM Apartamento WHERE idApartamento = " + idApartamento);
+            if (tipoApartamento == TipoApartamento.PADRAO) {
+                conn.insert("DELETE FROM ApartamentoPadrao WHERE idApartamento = " + idApartamento);
+            } else if (tipoApartamento == TipoApartamento.LUXO) {
+                conn.insert("DELETE FROM ApartamentoLuxo WHERE idApartamento = " + idApartamento);
+            }
             return true;
         } catch (Exception e) {
             return false;
