@@ -3,11 +3,14 @@ package controlminio.repositorio;
 import controlminio.bdConnection.MysqlConnect;
 import controlminio.domminio.*;
 
+import java.net.IDN;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static controlminio.repositorio.BancoEdificio.getEdificioById;
 
 public class BancoApartamento {
     public static void listarApartamentos() throws SQLException {
@@ -59,6 +62,47 @@ public class BancoApartamento {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static Apartamento getApartamentoById(Long idApartamento) throws SQLException {
+        MysqlConnect conn = MysqlConnect.getDbCon();
+        Apartamento apartamento = null;
+        ResultSet resultSet = conn.query("SELECT * FROM Apartamento WHERE idApartamento = " + idApartamento);
+        Long idEdificio = null;
+        Integer andar = null;
+        Integer numero = null;
+        TipoApartamento tipoApartamento = null;
+        while (resultSet.next()) {
+            idEdificio = Long.parseLong(resultSet.getString("idEdificio"));
+            andar = Integer.parseInt(resultSet.getString("andar"));
+            numero = Integer.parseInt(resultSet.getString("numero"));
+            tipoApartamento = TipoApartamento.valueOf(resultSet.getString("tipo"));
+        }
+        if (tipoApartamento == TipoApartamento.LUXO) {
+            resultSet = conn.query("SELECT * FROM ApartamentoLuxo WHERE idApartamento = " + idApartamento);
+            String luminarias = null;
+            boolean fogao = false;
+            boolean geladeira = false;
+            while (resultSet.next()) {
+                luminarias = resultSet.getString("luminarias");
+                fogao = resultSet.getBoolean("fogao");
+                geladeira = resultSet.getBoolean("geladeira");
+            }
+            apartamento = new ApartamentoLuxo(getEdificioById(idEdificio), andar, luminarias, numero, geladeira, fogao);
+            apartamento.setIdApartamento(idApartamento);
+        } else if (tipoApartamento == TipoApartamento.PADRAO) {
+            resultSet = conn.query("SELECT * FROM ApartamentoPadrao WHERE idApartamento = " + idApartamento);
+            String tipoPiso = null;
+            String tipoArmario = null;
+            while (resultSet.next()) {
+                tipoPiso = resultSet.getString("piso");
+                tipoArmario = resultSet.getString("armario");
+            }
+            apartamento = new ApartamentoPadrao(getEdificioById(idEdificio), andar, numero, tipoPiso, tipoArmario);
+            apartamento.setIdApartamento(idApartamento);
+        }
+        return apartamento;
+
     }
 
 

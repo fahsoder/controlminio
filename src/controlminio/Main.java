@@ -15,7 +15,7 @@ import java.util.Scanner;
 import static controlminio.repositorio.BancoCondominio.*;
 import static controlminio.repositorio.BancoEdificio.*;
 import static controlminio.repositorio.BancoApartamento.*;
-import static controlminio.repositorio.BancoPessoa.listarPessoas;
+import static controlminio.repositorio.BancoPessoa.*;
 
 public class Main {
 
@@ -33,6 +33,7 @@ public class Main {
             System.out.println("1) Condomínio");
             System.out.println("2) Edifício");
             System.out.println("3) Apartamento");
+            System.out.println("4) Pessoa");
             System.out.println("0) Sair");
 
             escolha = leitor.nextInt();
@@ -217,9 +218,26 @@ public class Main {
                         String sexo = leitor.next();
                         System.out.println("Digite sua data de nascimento: (ex: 01/01/2000)");
                         String dataText = leitor.next();
-                        DateTimeFormatter df = new DateTimeFormatter("dd/mm/yyyy")
+                        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");;
                         LocalDate dataNasc =  LocalDate.parse(dataText, df);
-                        Pessoa pessoa = new Pessoa(nome, cpf, rg, sexo, Local)
+                        Apartamento apartamento = getApartamentoById(idApartamento);
+                        Pessoa pessoa = new Pessoa(nome, cpf, rg, sexo, dataNasc);
+                        pessoa.setApartamento(apartamento);
+                        Long idPessoa = adicionarPessoa(pessoa);
+                        System.out.println("Pessoa " + idPessoa + " adicionada com sucesso!");
+                    }
+
+                    if (escolha_pessoa == 3) {
+                        System.out.println("DELETAR PESSOA");
+                        System.out.println("Lista de pesssoas:");
+                        listarPessoas();
+                        System.out.println("Digite o ID da pessoa");
+                        Long idPessoa = leitor.nextLong();
+                        if(deletarPessoa(idPessoa)) {
+                            System.out.println("Pessoa " + idPessoa + " deletada com sucesso!");
+                        } else {
+                            System.out.println("Erro ao deletar pessoa!");
+                        }
                     }
                 }
 
