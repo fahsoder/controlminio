@@ -108,7 +108,7 @@ public class BancoApartamento {
     public static void addProprietario(Long idPessoa, Long idApartamento) throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
 
-        conn.insert("UPDATE Apartamento SET idProprietario = " + idPessoa + "WHERE idApartamento = " + idApartamento);
+        conn.insert("UPDATE Apartamento SET idProprietario = " + idPessoa + " WHERE idApartamento = " + idApartamento);
     }
 
 

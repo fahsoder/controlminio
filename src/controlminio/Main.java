@@ -153,6 +153,7 @@ public class Main {
                     System.out.println("1) Consultar lista de apartamentos");
                     System.out.println("2) Adicionar apartamento");
                     System.out.println("3) Deletar apartamento");
+                    System.out.println("4) Definir proprietario");
                     System.out.println("0) Voltar");
                     escolha_apto = leitor.nextInt();
                     if (escolha_apto == 1) {
