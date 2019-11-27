@@ -12,8 +12,6 @@ public class ApartamentoPadrao extends Apartamento {
         super(edificio, andar, numero, TipoApartamento.PADRAO);
         this.tipoArmario = tipoArmario;
         this.tipoPiso = tipoPiso;
-
-        save();
     }
 
     public String getTipoArmario() {
@@ -32,10 +30,4 @@ public class ApartamentoPadrao extends Apartamento {
         this.tipoPiso = tipoPiso;
     }
 
-    private void save() throws SQLException {
-        MysqlConnect conn = MysqlConnect.getDbCon();
-
-        conn.insert("INSERT INTO ApartamentoPadrao (idApartamento, armario, piso)" +
-                "VALUES ('" + super.getIdApartamento() + "', '" + this.tipoArmario + "', '" + this.tipoPiso + "')");
-    }
 }

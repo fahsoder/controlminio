@@ -40,7 +40,7 @@ public class BancoCondominio {
     public static Boolean deletarCondominio(Long idCondominio) throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
         try {
-            conn.query("DELETE FROM Condominio WHERE idCondominio = " + idCondominio);
+            conn.insert("DELETE FROM Condominio WHERE idCondominio = " + idCondominio);
             return true;
         } catch (Exception e) {
             return false;
@@ -50,7 +50,21 @@ public class BancoCondominio {
     public static Condominio getCondominioById(Long idCondominio) throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
         ResultSet resultSet = conn.query("SELECT * FROM Condominio WHERE idCondominio = " + idCondominio);
-        return new Condominio(resultSet.getString("nome"), resultSet.getString("cidade"), resultSet.getString("bairro"), resultSet.getString("endereco"), Integer.parseInt(resultSet.getString("numero")));
+        String nome = null;
+        String cidade = null;
+        String bairro = null;
+        String endereco = null;
+        Integer numero = null;
+        while(resultSet.next()) {
+            nome = resultSet.getString("nome");
+            cidade = resultSet.getString("cidade");
+            bairro = resultSet.getString("bairro");
+            endereco = resultSet.getString("endereco");
+            numero = Integer.parseInt(resultSet.getString("numero"));
+        }
+        Condominio condominio = new Condominio(nome, cidade, bairro, endereco, numero);
+        condominio.setIdCondominio(idCondominio);
+        return condominio;
     }
 
     private static void saveCondominio(Condominio condominio) throws SQLException {

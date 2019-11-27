@@ -1,9 +1,7 @@
 package controlminio.repositorio;
 
 import controlminio.bdConnection.MysqlConnect;
-import controlminio.domminio.Apartamento;
-import controlminio.domminio.Condominio;
-import controlminio.domminio.Edificio;
+import controlminio.domminio.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -56,6 +54,32 @@ public class BancoApartamento {
         apartamento.setIdApartamento((Long) (long) conn.insert("INSERT INTO Apartamento (idEdificio, andar, numero, tipo) " +
                 "VALUES ('" + apartamento.getEdificio().getIdEdificio() + "', '" + apartamento.getAndar() + "', '" + apartamento.getNumero() +
                 "', '" + apartamento.getTipoApartamento().name() + "')"));
+        if (apartamento.getTipoApartamento() == TipoApartamento.LUXO) {
+            saveApartamentoLuxo((ApartamentoLuxo) apartamento);
+        } else if (apartamento.getTipoApartamento() == TipoApartamento.PADRAO) {
+            saveApartamentoPadrao((ApartamentoPadrao) apartamento);
+        }
     }
+
+
+    private static void saveApartamentoLuxo(ApartamentoLuxo apartamentoLuxo) throws SQLException {
+        MysqlConnect conn = MysqlConnect.getDbCon();
+        Integer geladeira = 0;
+        Integer fogao = 0;
+
+        if (apartamentoLuxo.getGeladeira()) { geladeira = 1;}
+        if (apartamentoLuxo.getFogao()) { fogao = 1;}
+        conn.insert("INSERT INTO ApartamentoLuxo (idApartamento, luminaria, geladeira, fogao)" +
+                "VALUES ('" + apartamentoLuxo.getIdApartamento() + "', '" + apartamentoLuxo.getLuminarias() + "', '" + geladeira + "', '" + fogao + "')");
+    }
+
+
+    private static void saveApartamentoPadrao(ApartamentoPadrao apartamentoPadrao) throws SQLException {
+        MysqlConnect conn = MysqlConnect.getDbCon();
+
+        conn.insert("INSERT INTO ApartamentoPadrao (idApartamento, armario, piso)" +
+                "VALUES ('" + apartamentoPadrao.getIdApartamento() + "', '" + apartamentoPadrao.getTipoArmario() + "', '" + apartamentoPadrao.getTipoPiso() + "')");
+    }
+
 
 }

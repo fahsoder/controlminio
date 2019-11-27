@@ -14,8 +14,6 @@ public class ApartamentoLuxo extends Apartamento {
         this.luminarias = luminarias;
         this.geladeira = geladeira;
         this.fogao = fogao;
-
-        save();
     }
 
     public String getLuminarias() {
@@ -26,7 +24,7 @@ public class ApartamentoLuxo extends Apartamento {
         this.luminarias = luminarias;
     }
 
-    public boolean isGeladeira() {
+    public boolean getGeladeira() {
         return this.geladeira;
     }
 
@@ -41,12 +39,5 @@ public class ApartamentoLuxo extends Apartamento {
      public void setFogao( boolean fogao){
         this.fogao = fogao;
      }
-
-    private void save() throws SQLException {
-        MysqlConnect conn = MysqlConnect.getDbCon();
-
-        conn.insert("INSERT INTO ApartamentoLuxo (idApartamento, luminaria, geladeira, fogao)" +
-                "VALUES ('" + super.getIdApartamento() + "', '" + this.luminarias + "', '" + this.geladeira + "', '" + this.fogao + "')");
-    }
 
 }

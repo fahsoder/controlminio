@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `controlminio`.`Apartamento` (
   `andar` INT NOT NULL,
   `numero` INT NOT NULL,
   `tipo` ENUM('PADRAO', 'LUXO') NOT NULL,
-  `idProprietario` INT NOT NULL,
+  `idProprietario` INT NULL,
   PRIMARY KEY (`idApartamento`),
   INDEX `FK_Edificio_idEdificio_idx` (`idEdificio` ASC),
   INDEX `FK_Pessoa_idProprietario_idx` (`idProprietario` ASC),

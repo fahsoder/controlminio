@@ -20,8 +20,9 @@ public class BancoEdificio {
 
         while(resultSet.next()) {
             HashMap<String, String> condominio = new HashMap<>();
+            condominio.put("idEdificio", resultSet.getString("idEdificio"));
             condominio.put("idCondominio", resultSet.getString("idCondominio"));
-            condominio.put("nome", resultSet.getString("nome"));
+            condominio.put("numero", resultSet.getString("numero"));
             result.add(condominio);
         }
 
@@ -42,10 +43,10 @@ public class BancoEdificio {
         return edificio.getIdEdificio();
     }
 
-    public static Boolean deletarEdificio(Long idCondominio) throws SQLException {
+    public static Boolean deletarEdificio(Long idEdificio) throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
         try {
-            conn.query("DELETE FROM Condominio WHERE idCondominio = " + idCondominio);
+            conn.insert("DELETE FROM Edificio WHERE idEdificio = " + idEdificio);
             return true;
         } catch (Exception e) {
             return false;
@@ -55,8 +56,19 @@ public class BancoEdificio {
     public static Edificio getEdificioById(Long idEdificio) throws SQLException {
         MysqlConnect conn = MysqlConnect.getDbCon();
         ResultSet resultSet = conn.query("SELECT * FROM Edificio WHERE idEdificio = " + idEdificio);
-        Condominio condominio = getCondominioById(Long.parseLong(resultSet.getString("idCondominio")));
-        return new Edificio(condominio, Integer.parseInt(resultSet.getString("numero")), resultSet.getString("cor"), Integer.parseInt(resultSet.getString("qntAndar")));
+        Condominio condominio = null;
+        Integer numero = null;
+        String cor = null;
+        Integer qntAndar = null;
+        while (resultSet.next()) {
+            numero = Integer.parseInt(resultSet.getString("numero"));
+            cor = resultSet.getString("cor");
+            qntAndar = Integer.parseInt(resultSet.getString("quantidadeAndar"));
+            condominio = getCondominioById(Long.parseLong(resultSet.getString("idCondominio")));
+        }
+        Edificio edificio = new Edificio(condominio, numero, cor, qntAndar);
+        edificio.setIdEdificio(idEdificio);
+        return edificio;
     }
 
     private static void saveEdificio(Edificio edificio) throws SQLException {
