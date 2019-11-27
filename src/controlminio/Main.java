@@ -179,7 +179,20 @@ public class Main {
                         } else {
                             System.out.println("Erro ao deletar apartamento");
                         }
+                    } else if (escolha_apto == 4) {
+                        System.out.println("ADICIONAR PROPRIETARIO");
+                        System.out.println("Lista de apartamentos:");
+                        listarApartamentos();
+                        System.out.println("Digite o ID do apartamento:");
+                        Long idApartamento = leitor.nextLong();
+                        System.out.println("Lista de pessoas:");
+                        listarPessoas();
+                        System.out.println("Digite o ID da pessoa");
+                        Long idPessoa = leitor.nextLong();
 
+                        addProprietario(idPessoa, idApartamento);
+
+                        System.out.println("A pessoa " + idPessoa + " foi definida como proprietaria do apartamento " + idApartamento);
                     } else if (escolha_apto == 0) {
 
                     } else {
